@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Tonal Foundation - The Scholastic Sentinel */
+  --color-primary: #000613;           /* The Void */
+  --color-primary-container: #001f3f; /* The Deep Navy */
+  --color-surface: #f7f9ff;           /* The Canvas */
+  --color-secondary: #50606f;         /* The Slate */
+  --color-on-surface: #0d1d2a;
+  
+  /* Ghost Border Fallback - 15% Opacity */
+  --color-outline-variant: rgba(116, 119, 127, 0.15);
+
+  /* Typography Scale - Editorial Voice */
+  --font-headline: var(--font-manrope);
+  --font-body: var(--font-inter);
+
+  /* Sharp Edge Philosophy - Global Reset */
+  --radius-none: 0px;
+  --radius-default: 0px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    /* Sekarang bg-surface dan text-primary sudah dikenali dari @theme */
+    @apply bg-surface text-primary antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Memaksa semua elemen memiliki sharp edges sesuai DESIGN.md */
+  *, ::before, ::after {
+    border-radius: 0px !important;
+  }
+
+  h1, h2, h3 {
+    @apply font-headline tracking-tighter uppercase font-extrabold;
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Glassmorphism for Floating Elements */
+  .glass-nav {
+    @apply backdrop-blur-md;
+    background-color: rgba(247, 249, 255, 0.8);
+  }
+
+  /* Tonal Layering Shadows (Ambient Shadow) */
+  .ambient-shadow {
+    box-shadow: 0px 24px 48px rgba(13, 29, 42, 0.06);
+  }
+
+  /* Technical Additional Components: Code Fragment */
+  .code-fragment {
+    @apply bg-primary-container text-surface p-4 font-mono text-sm leading-relaxed;
+  }
+}
+
+@layer utilities {
+  .text-justify-custom {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  /* Signature Texture: Midnight Luster Gradient */
+  .midnight-luster {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  }
 }
