@@ -3,11 +3,12 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 const adminEmails = [
-  "seanmarcello836@gmail.com", 
-  "walyulahdi.maulana@ui.ac.id",
-  "email.delta@gmail.com", 
-  "email.marco@gmail.com",
-  "email.nuril@gmail.com"
+    "seanmarcello836@gmail.com", 
+    "walyulahdi.maulana@ui.ac.id",
+    "ramadhanmaulana446@gmail.com",
+    "deltakrist.k@gmail.com",
+    "marcoimanuel06@gmail.com",
+    "nurilahmady04@gmail.com"
 ];
 
 const handler = NextAuth({
