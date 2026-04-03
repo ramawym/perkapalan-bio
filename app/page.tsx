@@ -94,8 +94,19 @@ export default function Home() {
               <h3 className="font-headline font-bold uppercase tracking-tighter text-lg leading-tight mb-4">
                 {member.name}
               </h3>
-              <div className="font-mono text-[10px] opacity-60 uppercase tracking-widest">
-                ID: {member.id}
+              <div className="space-y-1">
+                <div className="font-mono text-[10px] opacity-60 uppercase tracking-widest">
+                  ID: {member.id}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Major: {member.major}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Hobby: {member.hobby}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Sleep: {member.sleepTime}
+                </div>
               </div>
             </div>
           ))}
@@ -128,9 +139,9 @@ export default function Home() {
 }
 
 const teamMembers = [
-  { name: "Deltakristiano Kurniaputra", id: "2406425810" },
-  { name: "Marco Imanuel", id: "2406411824" },
-  { name: "Walyul'ahdi Maulana Ramadhan", id: "2406426012" }, 
-  { name: "Nuril Izza Ahmady", id: "2406424814" },
-  { name: "Sean Marcello Maheron", id: "2406401792" },
+  { name: "Deltakristiano Kurniaputra", id: "2406425810", major: "Information System", hobby: "Gaming", sleepTime: "Midnight Oil Burner" },
+  { name: "Marco Imanuel", id: "2406411824", major: "Computer Science", hobby: "Reading Comics", sleepTime: "Early Bird" },
+  { name: "Walyul'ahdi Maulana Ramadhan", id: "2406426012", major: "Information System", hobby: "Cooking", sleepTime: "Nocturnal Ninja" },
+  { name: "Nuril Izza Ahmady", id: "2406424814", major: "Information System", hobby: "Photography", sleepTime: "Afternoon Siesta" },
+  { name: "Sean Marcello Maheron", id: "2406401792", major: "Computer Science", hobby: "Basketball", sleepTime: "Sleep Deprived" },
 ];
