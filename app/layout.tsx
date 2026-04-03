@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
-// Impor AuthProvider yang sudah diperbaiki sebelumnya
-import AuthProvider from "./SessionProvider"; 
+import AuthProvider from "./SessionProvider";
+import { FontSettingsProvider } from "./FontSettingsContext";
 
 const manrope = Manrope({ 
   subsets: ["latin"], 
@@ -29,9 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${manrope.variable} ${inter.variable} font-body bg-surface text-primary antialiased`}>
-        {/* Membungkus aplikasi dengan Provider agar Session tersedia di seluruh halaman */}
         <AuthProvider>
-          {children}
+          <FontSettingsProvider>
+            {children}
+          </FontSettingsProvider>
         </AuthProvider>
       </body>
     </html>

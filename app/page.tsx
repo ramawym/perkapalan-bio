@@ -1,16 +1,18 @@
-"use client"; // Diperlukan untuk interaksi tombol dan hooks
+"use client";
 
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useFontSettings } from "./FontSettingsContext";
+import AdminSettings from "./AdminSettings";
 
 export default function Home() {
   const { data: session } = useSession();
+  const { settings } = useFontSettings();
   
-  // Otorisasi: Cek apakah user yang login adalah bagian dari anggota kelompok
-  const isAdmin = session?.user && (session.user as any).isAdmin;
+  const isAdmin = session?.user && (session.user as { isAdmin?: boolean }).isAdmin;
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans transition-all duration-700">
+    <main className="min-h-screen bg-white text-black font-sans transition-all duration-700" style={{ fontFamily: settings.fontFamily, color: settings.textColor }}>
       {/* Navigation - Glassmorphism & Sharp Edges */}
       <nav className="fixed top-0 z-50 w-full px-8 py-6 flex justify-between items-center border-b border-secondary/15 glass-nav">
         <div className="text-2xl font-black tracking-tighter uppercase font-headline">
@@ -92,13 +94,26 @@ export default function Home() {
               <h3 className="font-headline font-bold uppercase tracking-tighter text-lg leading-tight mb-4">
                 {member.name}
               </h3>
-              <div className="font-mono text-[10px] opacity-60 uppercase tracking-widest">
-                ID: {member.id}
+              <div className="space-y-1">
+                <div className="font-mono text-[10px] opacity-60 uppercase tracking-widest">
+                  ID: {member.id}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Major: {member.major}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Hobby: {member.hobby}
+                </div>
+                <div className="font-body text-[9px] opacity-70 uppercase tracking-wide">
+                  Sleep: {member.sleepTime}
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      {isAdmin && <AdminSettings />}
 
       {/* Footer - The Midnight Luster */}
       <footer className="bg-primary-container py-24 px-8 md:px-24 text-white">
@@ -124,9 +139,9 @@ export default function Home() {
 }
 
 const teamMembers = [
-  { name: "Deltakristiano Kurniaputra", id: "2406425810" },
-  { name: "Marco Imanuel", id: "2406411824" },
-  { name: "Walyul'ahdi Maulana Ramadhan", id: "2406426012" }, 
-  { name: "Nuril Izza Ahmady", id: "2406424814" },
-  { name: "Sean Marcello Maheron", id: "2406401792" },
+  { name: "Deltakristiano Kurniaputra", id: "2406425810", major: "Information System", hobby: "Gaming", sleepTime: "Midnight Oil Burner" },
+  { name: "Marco Imanuel", id: "2406411824", major: "Computer Science", hobby: "Reading Comics", sleepTime: "Early Bird" },
+  { name: "Walyul'ahdi Maulana Ramadhan", id: "2406426012", major: "Information System", hobby: "Cooking", sleepTime: "Nocturnal Ninja" },
+  { name: "Nuril Izza Ahmady", id: "2406424814", major: "Information System", hobby: "Photography", sleepTime: "Afternoon Siesta" },
+  { name: "Sean Marcello Maheron", id: "2406401792", major: "Computer Science", hobby: "Basketball", sleepTime: "Sleep Deprived" },
 ];

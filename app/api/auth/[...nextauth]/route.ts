@@ -1,9 +1,9 @@
 // Lokasi: app/api/auth/[...nextauth]/route.ts
-import NextAuth from "next-auth";
+import NextAuth, { Session, JWT } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 const adminEmails = [
-    "seanmarcello836@gmail.com", 
+    "seanmarcello836@gmail.com",
     "walyulahdi.maulana@ui.ac.id",
     "ramadhanmaulana446@gmail.com",
     "deltakrist.k@gmail.com",
@@ -11,7 +11,7 @@ const adminEmails = [
     "nurilahmady04@gmail.com"
 ];
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID as string,
@@ -26,14 +26,16 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
         session.user.isAdmin = token.isAdmin;
       }
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 // INI KUNCI UTAMANYA: Ekspor langsung handler sebagai GET dan POST
 export { handler as GET, handler as POST };
