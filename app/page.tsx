@@ -1,16 +1,18 @@
-"use client"; // Diperlukan untuk interaksi tombol dan hooks
+"use client";
 
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useFontSettings } from "./FontSettingsContext";
+import AdminSettings from "./AdminSettings";
 
 export default function Home() {
   const { data: session } = useSession();
+  const { settings } = useFontSettings();
   
-  // Otorisasi: Cek apakah user yang login adalah bagian dari anggota kelompok
-  const isAdmin = session?.user && (session.user as any).isAdmin;
+  const isAdmin = session?.user && (session.user as { isAdmin?: boolean }).isAdmin;
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans transition-all duration-700">
+    <main className="min-h-screen bg-white text-black font-sans transition-all duration-700" style={{ fontFamily: settings.fontFamily, color: settings.textColor }}>
       {/* Navigation - Glassmorphism & Sharp Edges */}
       <nav className="fixed top-0 z-50 w-full px-8 py-6 flex justify-between items-center border-b border-secondary/15 glass-nav">
         <div className="text-2xl font-black tracking-tighter uppercase font-headline">
@@ -99,6 +101,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {isAdmin && <AdminSettings />}
 
       {/* Footer - The Midnight Luster */}
       <footer className="bg-primary-container py-24 px-8 md:px-24 text-white">
