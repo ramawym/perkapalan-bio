@@ -44,17 +44,15 @@ Proyek menggunakan **NextAuth** pada App Router. Mekanismenya secara ringkas:
 4. `SessionProvider` mendistribusikan data session ke komponen client agar status login bisa dipakai di UI.
 
 ### 2) Otorisasi
-Otorisasi dilakukan dengan memeriksa status session dan/atau atribut user (misalnya role/email) pada:
-
-- Komponen server/client yang membutuhkan proteksi halaman.
-- Callback NextAuth (misalnya pada `jwt`/`session`) untuk menyisipkan data hak akses.
-- Kondisi rendering UI (contoh: tombol/fitur tertentu hanya tampil jika user sudah login).
+Otorisasi ditentukan berdasarkan alamat email yang digunakan saat login. 
+Terdapat lima email yang sudah ditetapkan dalam kode sebagai akun admin (Ditetapkan di konstan `adminEmails` di `app/api/auth/[...nextauth]/route.ts`).
+Mekanismenya:
 
 Prinsip implementasi:
 
-- **Belum login** -> diarahkan untuk sign in atau hanya mendapat akses konten publik.
-- **Sudah login** -> dapat mengakses fitur yang mensyaratkan autentikasi.
-- **Jika role diterapkan** -> akses fitur dibatasi sesuai peran (contoh: admin vs user biasa).
+- **Belum login** -> UI menampilkan tombol login Google (`signIn("google")`) dan hanya menampilkan konten publik. Rujukan: `app/page.tsx` (penggunaan `useSession`, kondisi `{session ? ... : ...}` pada navbar).
+- **Sudah login** -> Status login didistribusikan ke seluruh komponen melalui provider, lalu dipakai untuk rendering UI login state (nama user, tombol logout). Rujukan: `app/layout.tsx` (wrapper `AuthProvider`), `app/SessionProvider.tsx` (komponen `SessionProvider`), dan `app/page.tsx` (kondisi `session` + `signOut()`).
+- **Role admin diterapkan** -> Klaim `isAdmin` dibentuk dari daftar email admin di callback auth, lalu dipakai membatasi fitur admin di UI dan API. Rujukan: `app/api/auth/[...nextauth]/route.ts` (`adminEmails`, callback `jwt` dan `session`), `app/page.tsx` (kondisi `{isAdmin && <AdminSettings />}`), dan `app/api/settings/route.ts` (cek `getServerSession(authOptions)` + `if (!isAdmin) return 403`).
 
 ### 3) Ringkasan alur authz/authn
 - Login diverifikasi oleh NextAuth.
