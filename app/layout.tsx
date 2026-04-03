@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./SessionProvider";
+import { FontSettingsProvider } from "./FontSettingsContext";
 
 const manrope = Manrope({ 
   subsets: ["latin"], 
@@ -27,7 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${manrope.variable} ${inter.variable} font-body bg-surface text-primary antialiased`}>
-        {children}
+        <AuthProvider>
+          <FontSettingsProvider>
+            {children}
+          </FontSettingsProvider>
+        </AuthProvider>
       </body>
     </html>
   );
